@@ -31,6 +31,9 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     email = EmailField(_('email address'), unique=True)
     name = CharField(_('full name'), max_length=255, blank=True)
+    first_name = None  # type: ignore
+    last_name = None  # type: ignore
+    username = None  # type: ignore
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

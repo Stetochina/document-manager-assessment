@@ -5,6 +5,8 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
+from propylon_document_manager.accounts.auth import CustomAuthToken
+
 
 # API URLS
 urlpatterns = [
@@ -12,7 +14,7 @@ urlpatterns = [
     path("api/", include("propylon_document_manager.site.api_router")),
     # DRF auth token
     path("api-auth/", include("rest_framework.urls")),
-    path("auth-token/", obtain_auth_token),
+    path("auth-token/", CustomAuthToken.as_view(), name="auth-token"),
 ]
 
 if settings.DEBUG:
