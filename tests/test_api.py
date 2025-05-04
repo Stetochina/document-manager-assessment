@@ -27,6 +27,6 @@ def test_document_revision_access(document_version_for_user_1, document_version_
 
     # trying to access files on urls uploaded by other users will return an Exception
     response = authorized_client_user_1.get(
-        f'https://testserver/api/file_versions/get_file_by_url?file_url={document_version_for_user_2.url}')
+        f'https://testserver/api/file_versions/get_document_by_url?file_url={document_version_for_user_2.url}')
     assert response.status_code == 500
 

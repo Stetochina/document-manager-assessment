@@ -28,7 +28,7 @@ const DocumentDownload = () => {
       let link = null;
       try {
         const response = await axiosInstance.get(
-          "/api/file_versions/get_file_by_url",
+          "/api/file_versions/get_document_by_url",
           {
             params: { file_url: fileUrl },
             responseType: "blob",

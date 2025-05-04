@@ -91,5 +91,5 @@ plain-fixture:
 	$(IN_ENV) django-admin load_file_fixtures
 
 create-test-users:
-	$(IN_ENV) django-admin generate_user --email=test_user_1@test.com --password=testtest --name "Test User 1"
-	$(IN_ENV) django-admin generate_user --email=test_user_2@test.com --password=testtest --name "Test User 2"
+	$(IN_ENV) django-admin generate_user --email=user_1@test.com --password=test1 --name "User 1"
+	$(IN_ENV) django-admin generate_user --email=user_2@test.com --password=test2 --name "User 2"
