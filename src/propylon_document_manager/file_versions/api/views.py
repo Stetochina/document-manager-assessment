@@ -1,12 +1,14 @@
 from copy import deepcopy
 
 from rest_framework import status
+from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin, CreateModelMixin
 from rest_framework.viewsets import GenericViewSet
 from urllib.parse import urlparse, parse_qs
 from rest_framework.decorators import action
 from django.http import FileResponse
+from rest_framework.exceptions import APIException
 
 
 from ..models import FileRevision, FileInstance
