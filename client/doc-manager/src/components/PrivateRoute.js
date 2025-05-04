@@ -1,15 +1,15 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import Layout from "./Layout";
+import AppLayout from "./AppLayout";
 import { Outlet } from "react-router-dom";
 
 const PrivateRoute = () => {
   const { token } = useAuth();
 
   return token ? (
-    <Layout>
+    <AppLayout>
       <Outlet />
-    </Layout>
+    </AppLayout>
   ) : (
     <Navigate to="/" replace />
   );

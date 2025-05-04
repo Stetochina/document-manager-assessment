@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import axiosInstance from "../api/axiosInstance";
 
-const FileView = () => {
+const DocumentDownload = () => {
   const location = useLocation();
   const { "*": restOfPath } = useParams();
   const fileUrl = location.pathname + location.search;
@@ -98,4 +98,4 @@ const FileView = () => {
   );
 };
 
-export default FileView;
+export default DocumentDownload;

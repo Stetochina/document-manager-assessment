@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
 import { useAuth } from "../context/AuthContext";
 
-const FileUpload = () => {
+const DocumentUpload = () => {
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState("");
   const [files, setFiles] = useState([]);
@@ -229,4 +229,4 @@ const FileUpload = () => {
   );
 };
 
-export default FileUpload;
+export default DocumentUpload;

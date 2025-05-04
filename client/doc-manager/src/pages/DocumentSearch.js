@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import axiosInstance from "../api/axiosInstance";
 
-const FileSearch = () => {
+const DocumentSearch = () => {
   const [file, setFile] = useState(null);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -214,4 +214,4 @@ const FileSearch = () => {
   );
 };
 
-export default FileSearch;
+export default DocumentSearch;

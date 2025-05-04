@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import axiosInstance from "../api/axiosInstance";
 
-const LandingPage = () => {
+const LoginPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -83,4 +83,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default LoginPage;

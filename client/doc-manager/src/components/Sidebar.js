@@ -30,10 +30,10 @@ const Sidebar = () => {
       anchor="left"
     >
       <List>
-        <ListItem button="true" component={Link} to="/file-upload" style={{color: 'black'}}>
+        <ListItem button="true" component={Link} to="/doc-upload" style={{color: 'black'}}>
           <ListItemText primary="My documents and revisions" />
         </ListItem>
-        <ListItem button="true" component={Link} to="/file-search" style={{color: 'black'}}>
+        <ListItem button="true" component={Link} to="/doc-search" style={{color: 'black'}}>
           <ListItemText primary="Search and Download by hash" />
         </ListItem>
       </List>

@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-import LandingPage from "./pages/LandingPage";
-import FileUpload from "./pages/FileUpload";
-import FileSearch from "./pages/FileSearch";
-import FileView from "./pages/FileView";
+import LoginPage from "./pages/LoginPage";
+import DocumentUpload from "./pages/DocumentUpload";
+import DocumentSearch from "./pages/DocumentSearch";
+import DocumentDownload from "./pages/DocumentDownload";
 import PrivateRoute from "./components/PrivateRoute";
 
 const App = () => {
@@ -11,12 +11,12 @@ const App = () => {
     <Router>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LoginPage />} />
 
           <Route element={<PrivateRoute />}>
-            <Route path="/file-upload" element={<FileUpload />} />
-            <Route path="/file-search" element={<FileSearch />} />
-            <Route path="/*" element={<FileView />} />
+            <Route path="/doc-upload" element={<DocumentUpload />} />
+            <Route path="/doc-search" element={<DocumentSearch />} />
+            <Route path="/*" element={<DocumentDownload />} />
           </Route>
         </Routes>
       </AuthProvider>

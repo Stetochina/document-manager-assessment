@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import Sidebar from "./Sidebar";
 
-const Layout = ({ children }) => {
+const AppLayout = ({ children }) => {
   return (
     <Box display="flex">
       <Sidebar />
@@ -10,4 +10,4 @@ const Layout = ({ children }) => {
   );
 };
 
-export default Layout;
+export default AppLayout;
