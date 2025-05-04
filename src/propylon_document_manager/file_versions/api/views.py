@@ -1,6 +1,5 @@
 from copy import deepcopy
 
-from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin, CreateModelMixin
@@ -23,8 +22,9 @@ class FileRevisionViewSet(CreateModelMixin, RetrieveModelMixin, ListModelMixin, 
 
     def create(self, request, *args, **kwargs):
         data = deepcopy(request.data)
+        url = data['url'] if data['url'].startswith('/') else f"/{data['url']}"
 
-        parsed_url, query_params = self._parse_url(data['url'])
+        parsed_url, query_params = self._parse_url(url)
 
         queryset = FileRevision.objects.filter(url=parsed_url).exclude(user=self.request.user)
 
@@ -60,6 +60,7 @@ class FileRevisionViewSet(CreateModelMixin, RetrieveModelMixin, ListModelMixin, 
             "user": request.user.id,
             "revision_number": new_instance_version,
             "file": file_instance.id,
+            "url": url
         })
 
         serializer = self.get_serializer(data=data)
@@ -111,9 +112,30 @@ class FileRevisionViewSet(CreateModelMixin, RetrieveModelMixin, ListModelMixin, 
         if not file_revision:
             raise Exception(f"Could not find a file with url '{file_url}'")
 
-        file_path = file_revision.file.path
+        file_path = file_revision.file.file.path
         response = FileResponse(open(file_path, "rb"), as_attachment=True)
 
-        # THIS NEEDS TO CHANGE
-        response["Content-Disposition"] = f'attachment; filename="{file_revision.file.name}"'
+        response["Content-Disposition"] = f'attachment; filename="{file_revision.file.file_name}"'
+        return response
+
+    @action(detail=False, methods=["GET"])
+    def download_file_by_hash(self, request, *args, **kwargs):
+
+        file_hash = request.query_params.get("file_hash")
+
+        file = FileInstance.objects.filter(file_hash=file_hash).first()
+
+        if not file:
+            raise Exception("No File exists with this hash")
+
+        queryset = self.get_queryset()
+        revisions = queryset.filter(file=file.id).order_by("-revision_number")
+
+        if not revisions:
+            raise Exception("You do not have permission to download this file")
+
+        file_path = file.file.path
+        response = FileResponse(open(file_path, "rb"), as_attachment=True)
+
+        response["Content-Disposition"] = f'attachment; filename="{file.file_name}"'
         return response
