@@ -6,6 +6,9 @@ from rest_framework.response import Response
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin, CreateModelMixin
 from rest_framework.viewsets import GenericViewSet
 from urllib.parse import urlparse, parse_qs
+from rest_framework.decorators import action
+from django.http import FileResponse
+
 
 from ..models import FileRevision, FileInstance
 from .serializers import FileRevisionSerializer
@@ -41,8 +44,8 @@ class FileRevisionViewSet(CreateModelMixin, RetrieveModelMixin, ListModelMixin, 
         if not file_instance:
             file_instance = FileInstance(
                 file_hash=file_hash,
-                file_name=file.name,
-                file=file
+                file_name=file[0].name,
+                file=file[0]
             )
             file_instance.save()
 
@@ -70,3 +73,47 @@ class FileRevisionViewSet(CreateModelMixin, RetrieveModelMixin, ListModelMixin, 
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
         return parsed_url.path, query_params
+
+    @action(detail=False, methods=["GET"])
+    def retrieve_revisions_by_hash(self, request, *args, **kwargs):
+        """
+        Retrieve all revisions for a user that match the given file hash
+        """
+        queryset = self.get_queryset()
+        file_hash = request.query_params.get("file_hash")
+        if not file_hash:
+            raise Exception("You must provide 'file_hash' query param")
+
+        file = FileInstance.objects.filter(file_hash=file_hash).first()
+        if not file:
+            raise Exception("No File exists with this hash")
+
+
+        return Response(self.get_serializer_class()(instance=queryset.filter(file=file.id), many=True).data)
+
+    @action(detail=False, methods=["GET"])
+    def get_file_by_url(self, request, *args, **kwargs):
+
+        queryset = self.get_queryset()
+        if not (file_url := request.query_params.get("file_url")):
+            raise Exception("You must provide 'file_url' query param")
+        parsed_url, query_params = self._parse_url(file_url)
+        file_revision = None
+        if not query_params:
+            file_revision = queryset.filter(url=parsed_url).order_by("-revision_number").first()
+        elif "revision" in query_params.keys():
+            filtered_queryset = queryset.filter(url=parsed_url, revision_number=query_params["revision"][0])
+            try:
+                file_revision = filtered_queryset.get()
+            except FileRevision.DoesNotExist:
+                pass
+
+        if not file_revision:
+            raise Exception(f"Could not find a file with url '{file_url}'")
+
+        file_path = file_revision.file.path
+        response = FileResponse(open(file_path, "rb"), as_attachment=True)
+
+        # THIS NEEDS TO CHANGE
+        response["Content-Disposition"] = f'attachment; filename="{file_revision.file.name}"'
+        return response
