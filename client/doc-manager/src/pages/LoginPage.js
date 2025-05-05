@@ -28,7 +28,7 @@ const LoginPage = () => {
         password: password,
       });
       login(response.data.token, response.data.user_id);
-      navigate("/file-upload");
+      navigate("/doc-upload");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
       localStorage.removeItem("token");
@@ -37,13 +37,20 @@ const LoginPage = () => {
   };
 
   return (
-    <Container maxWidth="xs">
+    <Container
+      maxWidth="100%"
+      alignItems="center"
+      style={{ backgroundColor: "#aed6f1" }}
+    >
       <Box
         display="flex"
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
         height="100vh"
+        maxWidth="400px"
+        alignSelf={"center"}
+        justifySelf={"center"}
       >
         <Typography variant="h4" gutterBottom textAlign="center">
           Document Manager{" "}
@@ -57,6 +64,7 @@ const LoginPage = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            variant="standard"
           />
           <TextField
             fullWidth
@@ -66,6 +74,7 @@ const LoginPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            variant="standard"
           />
           {error && <Alert severity="error">{error}</Alert>}
           <Button

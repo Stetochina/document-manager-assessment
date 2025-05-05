@@ -84,15 +84,21 @@ const DocumentUpload = () => {
         <Typography variant="h4" gutterBottom>
           Document upload & revisions display
         </Typography>
-        <Stack alignSelf={"start"} direction={"row"}>
-          <Stack alignSelf={"start"} paddingTop={"20px"}>
-            <Typography fontWeight={"bold"}>Generate new revision:</Typography>
-            <Stack
-              direction={"row"}
-              alignItems={"center"}
-              spacing={2}
-              paddingTop={"20px"}
-            >
+        <Typography fontWeight={"bold"}>Generate new revision:</Typography>
+        <Stack
+          alignSelf={"start"}
+          direction={"row"}
+          display={"flex"}
+          width="100%"
+        >
+          <Stack
+            alignSelf={"start"}
+            paddingTop={"20px"}
+            direction={"row"}
+            alignItems={"center"}
+            spacing={2}
+          >
+            <Stack direction={"row"} alignItems={"center"} spacing={2}>
               <Typography alignSelf={"center"}>
                 Please provide the url where to store the document:
               </Typography>
@@ -108,25 +114,29 @@ const DocumentUpload = () => {
                 }}
               />
             </Stack>
-            <Stack>
+            <Stack alignItems={"center"}>
               <Box display="flex" gap={2} sx={{ width: "100%", mt: 1, mb: 1 }}>
                 <Button
-                  variant="outlined"
+                  marginTop="30px"
+                  variant="contained"
                   component="label"
+                  alignSelf="center"
                   sx={{
                     flexGrow: 1,
                     textAlign: "left",
                     justifyContent: "flex-start",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
+                    height: "54px",
                   }}
                 >
                   {file ? file.name : "Choose Document to store at desired URL"}
                   <input type="file" onChange={handleFileChange} hidden />
                 </Button>
                 <Button
+                  alignSelf="center"
                   variant="contained"
-                  color="primary"
+                  color="success"
                   onClick={handleUpload}
                   disabled={!file || !url}
                 >
@@ -155,14 +165,13 @@ const DocumentUpload = () => {
           )}
         </Box>
         <Box mt={4} width="100%">
-          <Typography variant="h6" gutterBottom alignSelf={"center"}>
-            My Documents
+          <Typography variant="h5" gutterBottom alignSelf={"center"}>
+            Documents
           </Typography>
           <List
             sx={{
               maxHeight: 500,
               overflow: "scroll",
-              border: "1px solid #e0e0e0",
               borderRadius: 1,
               bgcolor: "background.paper",
               mb: 3,
@@ -184,7 +193,12 @@ const DocumentUpload = () => {
                 }}
               >
                 <ListItemText
-                  primary={file.file.file_name}
+                  primary={
+                    <Typography variant="h6">
+                      {" "}
+                      Title: {file.file.file_name}
+                    </Typography>
+                  }
                   secondary={
                     <Typography>
                       URL: {file.url}

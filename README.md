@@ -9,6 +9,7 @@ The API project is a [Django/DRF](https://www.django-rest-framework.org/) projec
 2. `$ make fixtures` to create a small number of fixture file versions.
 3. `$ make serve` to start the development server on port 8001.
 4. `$ make test` to run the limited test suite via PyTest.
+5. `$ make create-test-users` to generate 2 dummy users for the app
 ### Client Development 
 The client project is a [Create React App](https://create-react-app.dev/) that has been tested against [Node v18.19.0 Hydrogen LTS](https://nodejs.org/download/release/v18.19.0/).  An [.nvmrc](https://github.com/nvm-sh/nvm#calling-nvm-use-automatically-in-a-directory-with-a-nvmrc-file) file has been included so that the command `$ nvm use` should select the correct NodeJS version through NVM.
 1. Navigate to the client/doc-manager directory.

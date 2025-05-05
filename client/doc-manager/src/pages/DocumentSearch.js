@@ -22,6 +22,7 @@ const DocumentSearch = () => {
   const [searchCount, setSearchCount] = useState(0);
   const navigate = useNavigate();
   const [downloadByHash, setDownloadByHash] = useState("");
+  const [hashDownloadError, setHashDownloadError] = useState(null);
 
   const handleFileChange = (e) => {
     setFile(e.target.value);
@@ -69,23 +70,30 @@ const DocumentSearch = () => {
   };
 
   const handleSetDownloadByHash = (e) => {
+    setHashDownloadError(null);
     setDownloadByHash(e.target.value);
   };
   const hashDownload = async () => {
     let link = null;
-    const response = await axiosInstance.get(
-      `/api/file_versions/download_file_by_hash/`,
-      {
-        params: { file_hash: downloadByHash },
-        responseType: "blob",
-      }
-    );
-    const filename = "downloaded_file";
-    link = document.createElement("a");
-    link.href = URL.createObjectURL(response.data);
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
+    try {
+      const response = await axiosInstance.get(
+        `/api/file_versions/download_file_by_hash/`,
+        {
+          params: { file_hash: downloadByHash },
+          responseType: "blob",
+        }
+      );
+      const filename = "downloaded_file";
+      link = document.createElement("a");
+      link.href = URL.createObjectURL(response.data);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+    } catch {
+      setHashDownloadError(
+        "Cannot find file by that hash or you do not have perimission to view it."
+      );
+    }
   };
 
   return (
@@ -97,9 +105,15 @@ const DocumentSearch = () => {
         justifyContent="center"
         mt={5}
       >
-        <Stack alignSelf={"start"} direction={"row"} spacing={4} flex={1} width={"100%"}>
+        <Stack
+          alignSelf={"start"}
+          direction={"row"}
+          spacing={4}
+          flex={1}
+          width={"100%"}
+        >
           <Stack alignSelf={"start"} flex={1}>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h5" gutterBottom>
               Search revisions by document hash
             </Typography>
 
@@ -122,8 +136,8 @@ const DocumentSearch = () => {
           </Stack>
 
           <Stack flex={1}>
-            <Typography variant="h6" gutterBottom>
-              Download doc directly from hash
+            <Typography variant="h5" gutterBottom>
+              Download document directly from hash
             </Typography>
             <Box display="flex" gap={2} sx={{ width: "100%", mt: 2, mb: 2 }}>
               <input
@@ -142,7 +156,9 @@ const DocumentSearch = () => {
             </Box>
           </Stack>
         </Stack>
-
+        {hashDownloadError && (
+          <Alert severity="error">{hashDownloadError}</Alert>
+        )}
         {error && (
           <Alert severity="error" sx={{ width: "100%", mb: 2 }}>
             {error}
@@ -151,14 +167,13 @@ const DocumentSearch = () => {
 
         {results.length > 0 && (
           <Box mt={4} width="100%">
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h5" gutterBottom>
               Search Results
             </Typography>
             <List
               sx={{
                 maxHeight: 400,
                 overflow: "auto",
-                border: "1px solid #e0e0e0",
                 borderRadius: 1,
                 bgcolor: "background.paper",
               }}
@@ -172,19 +187,21 @@ const DocumentSearch = () => {
                     },
                   }}
                   style={{
-                  border: "1px solid black",
-                  margin: "10px",
-                  maxWidth: "98%",
-                  borderRadius: "4px",
-                }}
+                    border: "1px solid black",
+                    margin: "10px",
+                    maxWidth: "98%",
+                    borderRadius: "4px",
+                  }}
                 >
                   <ListItemText
-                    primary={file.file.file_name}
+                    primary={
+                      <Typography> Title: {file.file.file_name}</Typography>
+                    }
                     secondary={
                       <Typography>
-                        {file.url}
+                        URL: {file.url}
                         <br />
-                        Version: {file.revision_number}
+                        Revision: {file.revision_number}
                         <br />
                         Hash: {file.file.file_hash}
                       </Typography>

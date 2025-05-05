@@ -39,12 +39,10 @@ const DocumentDownload = () => {
           ? contentDisposition.split("filename=")[1].replace(/"/g, "")
           : fileName || "downloaded_file";
 
-        console.log(response.data, "RESPONSE");
         link = document.createElement("a");
         link.href = URL.createObjectURL(response.data);
         link.download = filename;
         document.body.appendChild(link);
-        console.log(link, "LINK");
         link.click();
 
         setDownloadCompleted(true);
@@ -64,7 +62,7 @@ const DocumentDownload = () => {
   }, [fileUrl, fileName]);
 
   const handleBackToFileUpload = () => {
-    navigate("/file-upload");
+    navigate("/doc-upload");
   };
 
   return (
@@ -72,17 +70,17 @@ const DocumentDownload = () => {
       {loading && <CircularProgress />}
       {error && <Alert severity="error">{error}</Alert>}
       {!loading && !error && downloadCompleted && (
-        <Box>
-          <Typography variant="h6" gutterBottom>
-            Once you are done with file download you can go back to MyFiles
-            overview
+        <Box alignSelf={"center"} marginTop="100px">
+          <Typography variant="h4" gutterBottom>
+            Your document was downloaded. If you click on the button below it
+            will return you to your documents overview.
           </Typography>
           <Button
-            variant="contained"
+            variant="outlined"
             color="primary"
             onClick={handleBackToFileUpload}
           >
-            Go back
+            Return to documents overview
           </Button>
         </Box>
       )}

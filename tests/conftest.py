@@ -88,6 +88,16 @@ def document_version_for_user_1(document_instance_fixture_1, user_1, document_fi
     )
 
 @pytest.fixture
+def document2_version_for_user_1(document_instance_fixture_1, user_1, document_fixture_1):
+    return FileRevision.objects.create(
+        user=user_1,
+        url='/test/file_1/test_doc_1.txt',
+        file=document_instance_fixture_1,
+        revision_number=1,
+    )
+
+
+@pytest.fixture
 def document_version_for_user_2(document_instance_fixture_2, user_2, document_fixture_2):
     return FileRevision.objects.create(
         user=user_2,
