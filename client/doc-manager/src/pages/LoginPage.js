@@ -27,12 +27,11 @@ const LoginPage = () => {
         username: email,
         password: password,
       });
-      login(response.data.token, response.data.user_id);
+      login(response.data.token);
       navigate("/doc-upload");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
       localStorage.removeItem("token");
-      localStorage.removeItem("user_id");
     }
   };
 

@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
-from propylon_document_manager.accounts.auth import DocumentManagerAuthToken
+from rest_framework.authtoken.views import ObtainAuthToken
 
 # API URLS
 urlpatterns = [
@@ -9,7 +9,7 @@ urlpatterns = [
     path("api/", include("propylon_document_manager.site.api_router")),
     # DRF auth token
     path("api-auth/", include("rest_framework.urls")),
-    path("auth-token/", DocumentManagerAuthToken.as_view(), name="auth-token"),
+    path("auth-token/", ObtainAuthToken.as_view(), name="auth-token"),
 ]
 
 if settings.DEBUG:
