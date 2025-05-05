@@ -188,17 +188,20 @@ const DocumentSearch = () => {
                   }}
                   style={{
                     border: "1px solid black",
-                    margin: "10px",
+                    margin: "10px 0",
                     maxWidth: "98%",
                     borderRadius: "4px",
                   }}
                 >
                   <ListItemText
                     primary={
-                      <Typography> Title: {file.file.file_name}</Typography>
+                      <Typography variant="h6">
+                        {" "}
+                        Title: {file.file.file_name}
+                      </Typography>
                     }
                     secondary={
-                      <Typography>
+                      <Typography color="gray">
                         URL: {file.url}
                         <br />
                         Revision: {file.revision_number}

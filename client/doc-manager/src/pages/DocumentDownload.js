@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -12,13 +12,12 @@ import axiosInstance from "../api/axiosInstance";
 
 const DocumentDownload = () => {
   const location = useLocation();
-  const { "*": restOfPath } = useParams();
   const fileUrl = location.pathname + location.search;
   const { fileName } = location.state || {};
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [downloadCompleted, setDownloadCompleted] = useState(false);
-  const downloadStartedRef = useRef(false); // Using ref instead of state
+  const downloadStartedRef = useRef(false);
   const navigate = useNavigate();
   useEffect(() => {
     if (downloadStartedRef.current) return;

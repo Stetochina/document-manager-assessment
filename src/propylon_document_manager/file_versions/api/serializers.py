@@ -10,7 +10,9 @@ class FileInstanceSerializer(serializers.ModelSerializer):
         fields = ['file_name', 'file_hash', 'file']
 
 
+
 class FileRevisionSerializer(serializers.ModelSerializer):
+    # return serialized FileInstance data
     file = FileInstanceSerializer(read_only=True)
 
     class Meta:

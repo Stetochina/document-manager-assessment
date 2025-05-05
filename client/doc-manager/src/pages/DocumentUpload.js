@@ -187,7 +187,7 @@ const DocumentUpload = () => {
                 }}
                 style={{
                   border: "1px solid black",
-                  margin: "10px",
+                  margin: "10px 0",
                   maxWidth: "98%",
                   borderRadius: "4px",
                 }}
@@ -200,7 +200,7 @@ const DocumentUpload = () => {
                     </Typography>
                   }
                   secondary={
-                    <Typography>
+                    <Typography color="gray">
                       URL: {file.url}
                       <br />
                       Revision: {file.revision_number}

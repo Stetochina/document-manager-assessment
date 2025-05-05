@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from propylon_document_manager.accounts.models import User
 
-
+# extended base command to customize user creation
 class Command(BaseCommand):
     help = "Create a single user instance with a user-provided password."
 
