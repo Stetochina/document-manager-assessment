@@ -1,6 +1,7 @@
 from propylon_document_manager.file_versions.models import FileRevision
 
 def test_document_version_storing(user_1, document_instance_fixture_1):
+    # test out basic storing of doc revision as well as the doc instance if not already existing.
     url='/test/test/'
     file_version = 0
     FileRevision.objects.create(

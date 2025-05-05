@@ -12,7 +12,7 @@ def test_api_access(unauthorized_client, authorized_client_user_1):
 def test_document_revision_access(document_version_for_user_1, document_version_for_user_2, authorized_client_user_1,
                                            authorized_client_user_2):
 
-    # User only has access to its own files. It can't see nor access files uploaded by other users
+    # User only has access to its own files. User can't see nor access files uploaded by other users
     response = authorized_client_user_1.get('https://testserver/api/file_versions/')
     response_data = response.json()
     assert response.status_code == 200

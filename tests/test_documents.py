@@ -54,14 +54,14 @@ def test_revisions_upload_and_retrieval(authorized_client_user_1, document_fixtu
     assert response.status_code == 200
     assert response.text == document_fixture_1.file.getvalue().decode('UTF-8')
 
-    # we can also retrieve any revision that exists
+    # retrieve any revision that exists by providing the revision_number as a query param
     url=f"{data['url']}?revision=1"
     response = authorized_client_user_1.get(
         f'https://testserver/api/file_versions/get_document_by_url?file_url={url}')
     assert response.status_code == 200
     assert response.text == document_fixture_2.file.getvalue().decode('UTF-8')
 
-    # asking for a revision that does not exist returns bad request
+    # asking for a revision that does not exist returns exception
     url=f"{data['url']}?revision=5"
     response = authorized_client_user_1.get(
         f'https://testserver/api/file_versions/get_document_by_url?file_url={url}')
