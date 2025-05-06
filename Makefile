@@ -85,11 +85,6 @@ makemigrations:
 migrate:
 	$(IN_ENV) django-admin migrate
 
-fixture: build makemigrations migrate plain-fixture
-
-plain-fixture:
-	$(IN_ENV) django-admin load_file_fixtures
-
 create-test-users:
 	$(IN_ENV) django-admin generate_user --email=user_1@test.com --password=test1 --name "User 1"
 	$(IN_ENV) django-admin generate_user --email=user_2@test.com --password=test2 --name "User 2"
